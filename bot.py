@@ -4,7 +4,7 @@ import logging
 import messages
 
 TOKEN = '569532381:AAH5Ujv0o3pMLQsv-iHXNjHD0npmWElwztE'
-PORT = '5001'
+PORT = '5000'
 PROXY = {'proxy_url': 'socks5://t1.learn.python.ru:1080',
          'urllib3_proxy_kwargs': {'username': 'learn', 'password': 'python'}}
 
@@ -18,10 +18,10 @@ def main():
     dp.add_handler(CommandHandler("start", greet_user))
     dp.add_handler(MessageHandler(Filters.text, talk_to_me))
 
-    updater.start_webhook(listen="0.0.0.0",
-                          port=PORT,
-                          url_path=TOKEN)
-    updater.bot.set_webhook("https://pdd-exam-bot.herokuapp.com/" + TOKEN)
+    # updater.start_webhook(listen="0.0.0.0",
+    #                       port=PORT,
+    #                       url_path=TOKEN)
+    # updater.bot.set_webhook("https://pdd-exam-bot.herokuapp.com/" + TOKEN)
     updater.idle()
 
 
