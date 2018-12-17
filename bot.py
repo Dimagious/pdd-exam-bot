@@ -1,23 +1,23 @@
 # -*- coding: utf-8 -*-
-from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
+from telegram import ReplyKeyboardMarkup, InlineKeyboardButton, InlineKeyboardMarkup
+from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, ConversationHandler
+from random import randint
 import logging
 import messages
+import config
+import db
 
-TOKEN = '569532381:AAH5Ujv0o3pMLQsv-iHXNjHD0npmWElwztE'
-PORT = '5000'
-PROXY = {'proxy_url': 'socks5://t1.learn.python.ru:1080',
-         'urllib3_proxy_kwargs': {'username': 'learn', 'password': 'python'}}
-
+CHOOSE_MODE = range(1)
 logging.basicConfig(format=messages.LOGGING, level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
 def main():
-    updater = Updater(TOKEN, request_kwargs=PROXY)
+    updater = Updater(config.TOKEN, request_kwargs=config.PROXY)
     dp = updater.dispatcher
-    dp.add_handler(CommandHandler("start", greet_user))
-    dp.add_handler(MessageHandler(Filters.text, talk_to_me))
-
+    dp.add_handler(CommandHandler("start", start))
+    dp.add_handler(CommandHandler("start_training", start_training))
+    updater.start_polling()
     # updater.start_webhook(listen="0.0.0.0",
     #                       port=PORT,
     #                       url_path=TOKEN)
@@ -25,16 +25,27 @@ def main():
     updater.idle()
 
 
-def greet_user(bot, update):
-    text = 'Вызван /start'
-    print(text)
-    update.message.reply_text(text)
+def start(bot, update):
+    bot.sendMessage(chat_id=update.message.chat_id, text=messages.WELCOME)
 
 
-def talk_to_me(bot, update):
-    user_text = update.message.text
-    print(user_text)
-    update.message.reply_text(user_text)
+def cancel(bot, update):
+    bot.sendMessage(update.message.chat_id, messages.STOP)
+    return ConversationHandler.END
+
+
+def start_training(bot, update):
+    three_answers = [[InlineKeyboardButton("1", callback_data='1'), InlineKeyboardButton("2", callback_data='2'),
+                      InlineKeyboardButton("3", callback_data='3')]]
+    four_answers = [[InlineKeyboardButton("1", callback_data='1'), InlineKeyboardButton("2", callback_data='2'),
+                     InlineKeyboardButton("3", callback_data='3'), InlineKeyboardButton("4", callback_data='4')]]
+    random_number = randint(0, 20)
+    choices = db.get_number_of_choices(0, random_number)
+
+    reply_markup = InlineKeyboardMarkup(three_answers) if choices == 3 else InlineKeyboardMarkup(four_answers)
+
+    bot.sendMessage(chat_id=update.message.chat_id, text=db.get_question(0, random_number),
+                    reply_markup=reply_markup, one_time_keyboard=True)
 
 
 if __name__ == '__main__':
