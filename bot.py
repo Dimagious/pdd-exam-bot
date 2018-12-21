@@ -15,9 +15,9 @@ def main():
     updater = Updater(config.TOKEN, request_kwargs=config.PROXY)
     dp = updater.dispatcher
     dp.add_handler(CommandHandler("start", start, pass_user_data=True))
-    dp.add_handler(CommandHandler("start_training", start_training, pass_user_data=True))
+    dp.add_handler(CommandHandler("training", training, pass_user_data=True))
     dp.add_handler(RegexHandler('^(Вернуться в меню)$', start, pass_user_data=True))
-    dp.add_handler(RegexHandler('^(Следующий вопрос️)$', start_training, pass_user_data=True))
+    dp.add_handler(RegexHandler('^(Следующий вопрос️)$', training, pass_user_data=True))
     dp.add_handler(CallbackQueryHandler(user_answer))
     updater.start_polling()
     # updater.start_webhook(listen="0.0.0.0",
@@ -84,7 +84,7 @@ def user_answer(bot, update):
                         reply_markup=ReplyKeyboardMarkup(keyboard, one_time_keyboard=False))
 
 
-def start_training(bot, update, user_data):
+def training(bot, update, user_data):
     """
     Метод, который посылает случайный вопрос из случайного билета пользователю
     :param bot:
