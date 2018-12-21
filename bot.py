@@ -63,7 +63,7 @@ def user_answer(bot, update):
     ticket = int(query.data.split(';')[1])
     question = int(query.data.split(';')[2])
     comment = db.get_comment(ticket, question)
-    write_choice = db.get_write_answer(ticket, question)
+    write_choice = int(db.get_write_answer(ticket, question))
 
     if user_choice == 5:
         bot.sendMessage(chat_id=query.message.chat.id, text=messages.WELCOME,
@@ -109,7 +109,7 @@ def start_training(bot, update, user_data):
 
     choices = db.get_number_of_choices(random_ticket, random_question)
 
-    reply_markup = InlineKeyboardMarkup(four_answers) if choices == 4 else InlineKeyboardMarkup(three_answers)
+    reply_markup = InlineKeyboardMarkup(three_answers) if int(choices) == 3 else InlineKeyboardMarkup(four_answers)
 
     bot.sendMessage(chat_id=update.message.chat_id,
                     text=db.get_question(random_ticket, random_question),
