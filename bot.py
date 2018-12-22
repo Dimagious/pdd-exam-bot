@@ -5,10 +5,12 @@ from random import randint
 import logging
 import messages
 import config
+import os
 import db
 
 logging.basicConfig(format=messages.LOGGING, level=logging.INFO)
 logger = logging.getLogger(__name__)
+port = int(os.environ.get("PORT", config.PORT))
 
 
 def main():
@@ -23,7 +25,7 @@ def main():
     dp.add_handler(CallbackQueryHandler(user_answer))
     updater.start_polling()
     updater.start_webhook(listen="0.0.0.0",
-                          port=config.PORT,
+                          port=port,
                           url_path=config.TOKEN)
     updater.bot.set_webhook("https://pdd-exam-bot.herokuapp.com/" + config.TOKEN)
     updater.idle()
