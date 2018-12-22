@@ -22,10 +22,10 @@ def main():
     dp.add_handler(RegexHandler('^(Пересдать экзамен️)$', exam, pass_user_data=True))
     dp.add_handler(CallbackQueryHandler(user_answer))
     updater.start_polling()
-    # updater.start_webhook(listen="0.0.0.0",
-    #                       port=PORT,
-    #                       url_path=TOKEN)
-    # updater.bot.set_webhook("https://pdd-exam-bot.herokuapp.com/" + TOKEN)
+    updater.start_webhook(listen="0.0.0.0",
+                          port=config.PORT,
+                          url_path=config.TOKEN)
+    updater.bot.set_webhook("https://pdd-exam-bot.herokuapp.com/" + config.TOKEN)
     updater.idle()
 
 
