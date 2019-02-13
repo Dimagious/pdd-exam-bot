@@ -9,10 +9,10 @@
 ## Режим экзамена
 ![Crossword Helper demo](https://github.com/Dimagious/Dimagious.github.io/blob/master/exam.png?raw=true)
 
-##Лицензия
+## Лицензия
 
-####Apache License 2.0
+#### Apache License 2.0
 
-##Цель 
+## Цель 
 
-####Создан в целях ознакомления с python и telegram. Планирую покрыть тестами всего бота, добавить функциаонал и написать автотесты.
+#### Создан в целях ознакомления с python и telegram. Планирую покрыть тестами всего бота, добавить функциаонал и написать автотесты.
