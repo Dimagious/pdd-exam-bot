@@ -5,12 +5,10 @@ from random import randint
 import logging
 import messages
 import config
-import os
 import db
 
 logging.basicConfig(format=messages.LOGGING, level=logging.INFO)
 logger = logging.getLogger(__name__)
-port = int(os.environ.get("PORT", config.PORT))
 
 
 def main():
@@ -24,10 +22,10 @@ def main():
     dp.add_handler(RegexHandler('^(Пересдать экзамен️)$', exam, pass_user_data=True))
     dp.add_handler(CallbackQueryHandler(user_answer))
     updater.start_polling()
-    updater.start_webhook(listen="0.0.0.0",
-                          port=port,
-                          url_path=config.TOKEN)
-    updater.bot.set_webhook("https://pdd-exam-bot.herokuapp.com/" + config.TOKEN)
+    # updater.start_webhook(listen="0.0.0.0",
+    #                       port=int(os.environ.get("PORT", config.PORT)),
+    #                       url_path=config.TOKEN)
+    # updater.bot.set_webhook("https://pdd-exam-bot.herokuapp.com/" + config.TOKEN)
     updater.idle()
 
 
@@ -48,7 +46,7 @@ def training(bot, update, user_data):
     :param update:
     :param user_data:
     """
-    random_ticket = 1
+    random_ticket = 0
     random_question = randint(1, 20)
     is_exam = 0
     button_info = str(random_ticket) + ';' + str(random_question) + ';' + str(is_exam)
