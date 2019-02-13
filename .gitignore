@@ -1,4 +1,6 @@
 # Byte-compiled / optimized / DLL files
+client_secret.json
+config.py
 .idea/
 __pycache__/
 *.py[cod]
